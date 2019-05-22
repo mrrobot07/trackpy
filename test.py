@@ -1,8 +1,9 @@
 import requests
+import csv
 
 
-print("Ingresa el número de tracking: ")
-number = input()
+
+
 
 def SearchNumber(number):
     URL = 'https://www.fedex.com/trackingCal/track'
@@ -21,3 +22,4 @@ def SearchNumber(number):
 #Llama la funcion
 # SearchNumber(number)
 #477937452712
+#452520484968
