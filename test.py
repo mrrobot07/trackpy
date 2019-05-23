@@ -1,25 +1,63 @@
 import requests
+import time
 import csv
 
 
 
+#Variables
+
+numberOfTracking = []
+
+with open('file.csv', mode = 'r') as csv_file:
+    csv_reader = csv.reader(csv_file , delimiter = ',')
+    for row in csv_reader:
+        if(row == ''):
+            print('No existen numeros de tracking en este archivo')
+        numberOfTracking.append(''.join(row))
 
 
+
+
+#Funcion para buscar el numero
 def SearchNumber(number):
+    time.sleep(.400)
     URL = 'https://www.fedex.com/trackingCal/track'
     param = {
-        'data' : '{"TrackPackagesRequest":{"appType":"WTRK","appDeviceType":"DESKTOP","supportHTML":true,"supportCurrentLocation":true,"uniqueKey":"","processingParameters":{},"trackingInfoList":[{"trackNumberInfo":{"trackingNumber":"'+number+'","trackingQualifier":"","trackingCarrier":""}}]}}',
+        'data' : '{"TrackPackagesRequest":{"appType":"WTRK","appDeviceType":"","supportHTML":true,"supportCurrentLocation":true,"uniqueKey":"","processingParameters":{},"trackingInfoList":[{"trackNumberInfo":{"trackingNumber":"'+number+'","trackingQualifier":"","trackingCarrier":""}}]}}',
         'action' : 'trackpackages',
-        'locale' : 'en_US',
+        'locale' : 'es_DO',
         'version' : '1',
         'format' : 'json'
     }
 
     r = requests.post(url = URL , data = param )
     pastebin = r.json()
-    print(pastebin['TrackPackagesResponse']['packageList'][0]['keyStatus'])
+    numeroTracking = number
+    data = []
+    pesoKg = (pastebin['TrackPackagesResponse']['packageList'][0]['displayTotalKgsWgt'])
+    pesoLb = pastebin['TrackPackagesResponse']['packageList'][0]['displayTotalLbsWgt']
+    estatus = pastebin['TrackPackagesResponse']['packageList'][0]['keyStatus']
+    fechaSalida = pastebin['TrackPackagesResponse']['packageList'][0]['displayPickupDateTime']
+    fechaLlegada = pastebin['TrackPackagesResponse']['packageList'][0]['displayActDeliveryDateTime']
+    if(pesoKg == '') : pesoKg = 'Dato pendiente'
+    if(pesoLb == '') : pesoLb = 'Dato pendiente'
+    if(fechaSalida == '') : fechaSalida = 'Dato pendiente'
+    if(fechaLlegada == '') : fechaLlegada = 'Dato pendiente'
+    data.append('Numero de tracking : ' + numeroTracking)
+    data.append('Estatus : ' + estatus)
+    data.append('Peso en Kg : ' + pesoKg)
+    data.append('Peso el Lb : ' + pesoLb)
+    data.append('Fecha de salida :' + fechaSalida)
+    data.append('Fecha de entregado : ' + fechaLlegada)
 
-#Llama la funcion
-# SearchNumber(number)
-#477937452712
-#452520484968
+
+    csv.register_dialect('delimitador', delimiter = '|', quoting=csv.QUOTE_NONE,skipinitialspace=True)
+
+    with open('final.csv' , 'a') as csvFile:
+        writer = csv.writer(csvFile , dialect = 'delimitador')
+        writer.writerow(data)
+    csvFile.close()
+
+
+for tracking in numberOfTracking:
+    SearchNumber(tracking)
