@@ -31,7 +31,7 @@ with open('file.csv', mode = 'r') as csv_file:
 
 #Funcion para buscar el numero
 def SearchNumber(number):
-    print("Trabajando con el número de tracking: " + number + "\n")
+    print("Trabajando con el número de tracking: " + str(number) + "\n")
     time.sleep(.400)
     URL = 'https://www.fedex.com/trackingCal/track'
     param = {
