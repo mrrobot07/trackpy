@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*- 
 import os
-
 try:
     import requests
     import time
@@ -55,16 +54,16 @@ def SearchNumber(number):
     if(pesoLb == '') : pesoLb = 'Dato pendiente'
     if(fechaSalida == '') : fechaSalida = 'Dato pendiente'
     if(fechaLlegada == '') : fechaLlegada = 'Dato pendiente'
-    data.append('Numero de tracking : ' + numeroTracking)
-    data.append('Estatus : ' + estatus)
-    data.append('Peso en Kg : ' + pesoKg)
-    data.append('Peso el Lb : ' + pesoLb)
-    data.append('Fecha de salida :' + fechaSalida)
-    data.append('Fecha de entregado : ' + fechaLlegada)
+    data.append('Numero de tracking : ' + numeroTracking.encode('utf-8'))
+    data.append('Estatus : ' + estatus.encode('utf-8'))
+    data.append('Peso en Kg : ' + pesoKg.encode('utf-8'))
+    data.append('Peso el Lb : ' + pesoLb.encode('utf-8'))
+    data.append('Fecha de salida :' + fechaSalida.encode('utf-8'))
+    data.append('Fecha de entregado : ' + fechaLlegada.encode('utf-8'))
 
 
     csv.register_dialect('delimitador', delimiter = '|', quoting=csv.QUOTE_NONE,skipinitialspace=True)
-
+    data
     with open('final.csv' , 'a') as csvFile:
         writer = csv.writer(csvFile , dialect = 'delimitador')
         writer.writerow(data)
