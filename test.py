@@ -1,7 +1,16 @@
+import os
+
+
+try:
+    import requests
+    import time
+    import csv
+except ImportError :
+    print('Faltan algunas librerías, instalandolas en el sistema...')
+    os.system('python -m pip install request time')
 import requests
 import time
 import csv
-
 
 
 #Variables
