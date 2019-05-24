@@ -8,7 +8,8 @@ try:
     import csv
 except ImportError :
     print('Faltan algunas librerías, instalandolas en el sistema...')
-    os.system('python -m pip install request')
+    os.system('python -m pip install requests')
+    os.system('python -m pip install time')
 import requests
 import time
 import csv
